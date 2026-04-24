@@ -1,20 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kartify/core/core.dart';
+import 'package:kartify/core/theme/theme_preferences_impl.dart';
+import 'package:kartify/core/theme/bloc/theme_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(
+    BlocProvider(
+      create: (_) =>
+          ThemeBloc(themePreferences: ThemePreferencesImpl(prefs: prefs)),
+      child: const KartifyApp(),
+    ),
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class KartifyApp extends StatelessWidget {
+  const KartifyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Kartify',
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: state.themeMode,
+          home: Scaffold(
+            appBar: AppBar(title: const Text('Kartify')),
+            body: Center(
+              child: Switch(
+                value: state.themeMode == ThemeMode.dark,
+                onChanged: (isDark) {
+                  context.read<ThemeBloc>().add(
+                    ThemeChanged(
+                      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
