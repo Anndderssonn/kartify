@@ -24,7 +24,7 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: '/profile',
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const ProfilePage(),
         ),
       ],
     ),

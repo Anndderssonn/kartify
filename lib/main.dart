@@ -25,6 +25,7 @@ class KartifyApp extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp.router(
           title: 'Kartify',
+          debugShowCheckedModeBanner: false,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: state.themeMode,
