@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kartify/core/core.dart';
 import 'package:kartify/features/features.dart';
 
 final appRouter = GoRouter(
@@ -27,6 +29,13 @@ final appRouter = GoRouter(
           builder: (context, state) => const ProfilePage(),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/address',
+      builder: (context, state) => BlocProvider(
+        create: (_) => getIt<AddressBloc>()..add(AddressLoadRequested()),
+        child: const AddressListPage(),
+      ),
     ),
   ],
 );

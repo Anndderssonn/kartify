@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kartify/features/profile/presentation/widgets/widgets.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String? _defaultAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +30,13 @@ class ProfilePage extends StatelessWidget {
             child: ProfileMenuItem(
               icon: Icons.location_on_outlined,
               title: 'Address',
-              subtitle: 'Manage your address',
-              onTap: () {},
+              subtitle: _defaultAddress ?? 'Manage your addresses',
+              onTap: () async {
+                final result = await context.push<String?>('/address');
+                if (result != null) {
+                  setState(() => _defaultAddress = result);
+                }
+              },
             ),
           ),
           SliverToBoxAdapter(

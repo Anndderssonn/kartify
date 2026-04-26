@@ -5,6 +5,7 @@ import 'package:kartify/core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupDependencies();
   final prefs = await SharedPreferences.getInstance();
 
   runApp(
