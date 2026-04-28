@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kartify/features/profile/presentation/widgets/widgets.dart';
+import 'package:kartify/features/theme/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -76,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icons.dark_mode_outlined,
               title: 'Theme',
               subtitle: 'Light / Dark',
-              onTap: () {},
+              onTap: () => ThemeBottomSheet.show(context),
             ),
           ),
           SliverToBoxAdapter(
