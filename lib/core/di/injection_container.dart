@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:kartify/features/address/address.dart';
+import 'package:kartify/features/categories/categories.dart';
 
 final getIt = GetIt.instance;
 
 void setupDependencies() {
   _setupAddress();
+  _setupCategories();
 }
 
 void _setupAddress() {
@@ -46,5 +48,25 @@ void _setupAddress() {
       deleteAddressUsecase: getIt<DeleteAddressUsecase>(),
       setDefaultAddressUsecase: getIt<SetDefaultAddressUsecase>(),
     ),
+  );
+}
+
+void _setupCategories() {
+  getIt.registerLazySingleton<CategoryRemoteDatasource>(
+    () => CategoryRemoteDatasourceImpl(),
+  );
+
+  getIt.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepositoryImpl(
+      remoteDatasource: getIt<CategoryRemoteDatasource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton(
+    () => GetCategoriesUsecase(repository: getIt<CategoryRepository>()),
+  );
+
+  getIt.registerFactory(
+    () => CategoryBloc(getCategoriesUsecase: getIt<GetCategoriesUsecase>()),
   );
 }

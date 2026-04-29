@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kartify/core/core.dart';
+import 'package:kartify/features/categories/presentation/pages/categories_page.dart';
 import 'package:kartify/features/features.dart';
 
 final appRouter = GoRouter(
@@ -18,7 +19,10 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: '/categories',
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CategoryBloc>()..add(CategoryLoadRequested()),
+            child: const CategoriesPage(),
+          ),
         ),
         GoRoute(
           path: '/cart',
