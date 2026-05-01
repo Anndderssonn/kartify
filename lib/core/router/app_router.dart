@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kartify/core/core.dart';
-import 'package:kartify/features/categories/presentation/pages/categories_page.dart';
 import 'package:kartify/features/features.dart';
 
 final appRouter = GoRouter(
@@ -40,6 +39,19 @@ final appRouter = GoRouter(
         create: (_) => getIt<AddressBloc>()..add(AddressLoadRequested()),
         child: const AddressListPage(),
       ),
+    ),
+    GoRoute(
+      path: '/products/:categoryId',
+      builder: (context, state) {
+        final categoryId = state.pathParameters['categoryId']!;
+        final categoryName = state.uri.queryParameters['categoryName'] ?? '';
+        return BlocProvider(
+          create: (_) =>
+              getIt<ProductBloc>()
+                ..add(ProductLoadRequested(categoryId: categoryId)),
+          child: ProductsPage(categoryName: categoryName),
+        );
+      },
     ),
   ],
 );

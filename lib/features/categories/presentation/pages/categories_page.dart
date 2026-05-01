@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:kartify/features/categories/domain/domain.dart';
 import 'package:kartify/features/categories/presentation/bloc/category_bloc.dart';
@@ -51,7 +52,9 @@ class _CategoryCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () => context.push(
+        '/products/${category.id}?categoryName=${Uri.encodeComponent(category.name)}',
+      ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
