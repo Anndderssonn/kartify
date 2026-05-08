@@ -8,12 +8,26 @@ class MainNavigationPage extends StatelessWidget {
 
   const MainNavigationPage({super.key, required this.child});
 
+  int _locationToIndex(String location) {
+    if (location.startsWith('/home')) return 0;
+    if (location.startsWith('/categories')) return 1;
+    if (location.startsWith('/cart')) return 2;
+    if (location.startsWith('/profile')) return 3;
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri.path;
+    final index = _locationToIndex(location);
+
     return BlocProvider(
       create: (_) => NavigationBloc(),
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
+          context.read<NavigationBloc>().add(
+            NavigationTabChanged(tabIndex: index),
+          );
           return Scaffold(
             body: child,
             bottomNavigationBar: NavigationBar(

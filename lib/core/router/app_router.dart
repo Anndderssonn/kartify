@@ -12,10 +12,7 @@ final appRouter = GoRouter(
         return MainNavigationPage(child: child);
       },
       routes: [
-        GoRoute(
-          path: '/home',
-          builder: (context, state) => const Placeholder(),
-        ),
+        GoRoute(path: '/home', builder: (context, state) => const HomePage()),
         GoRoute(
           path: '/categories',
           builder: (context, state) => BlocProvider(

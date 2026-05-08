@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kartify/core/core.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String username;
   final String email;
 
   const ProfileHeader({super.key, required this.username, required this.email});
-
-  String get _initials {
-    final parts = username.trim().split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    return parts[0][0].toUpperCase();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
                 radius: 28,
                 backgroundColor: colorScheme.primary,
                 child: Text(
-                  _initials,
+                  StringUtils.getInitials(username),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
