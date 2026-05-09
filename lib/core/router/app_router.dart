@@ -50,5 +50,12 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/product/:productId',
+      builder: (context, state) {
+        final product = state.extra as ProductEntity;
+        return ProductDetailPage(product: product);
+      },
+    ),
   ],
 );
