@@ -7,6 +7,7 @@ void setupDependencies() {
   _setupAddress();
   _setupCategories();
   _setupProducts();
+  _setupCart();
 }
 
 void _setupAddress() {
@@ -89,6 +90,40 @@ void _setupProducts() {
   getIt.registerFactory(
     () => ProductBloc(
       getProductsByCategoryUsecase: getIt<GetProductsByCategoryUsecase>(),
+    ),
+  );
+}
+
+void _setupCart() {
+  getIt.registerLazySingleton<CartRepository>(() => CartRepositoryImpl());
+
+  getIt.registerLazySingleton(
+    () => GetCartItemsUsecase(repository: getIt<CartRepository>()),
+  );
+
+  getIt.registerLazySingleton(
+    () => AddToCartUsecase(repository: getIt<CartRepository>()),
+  );
+
+  getIt.registerLazySingleton(
+    () => RemoveFromCartUsecase(repository: getIt<CartRepository>()),
+  );
+
+  getIt.registerLazySingleton(
+    () => UpdateQuantityUsecase(repository: getIt<CartRepository>()),
+  );
+
+  getIt.registerLazySingleton(
+    () => ClearCartUsecase(repository: getIt<CartRepository>()),
+  );
+
+  getIt.registerSingleton(
+    CartBloc(
+      getCartItemsUsecase: getIt<GetCartItemsUsecase>(),
+      addToCartUsecase: getIt<AddToCartUsecase>(),
+      removeFromCartUsecase: getIt<RemoveFromCartUsecase>(),
+      updateQuantityUsecase: getIt<UpdateQuantityUsecase>(),
+      clearCartUsecase: getIt<ClearCartUsecase>(),
     ),
   );
 }

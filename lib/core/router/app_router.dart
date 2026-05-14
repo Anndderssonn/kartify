@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kartify/core/core.dart';
@@ -22,7 +21,10 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: '/cart',
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<CartBloc>(),
+            child: const CartPage(),
+          ),
         ),
         GoRoute(
           path: '/profile',
@@ -54,7 +56,10 @@ final appRouter = GoRouter(
       path: '/product/:productId',
       builder: (context, state) {
         final product = state.extra as ProductEntity;
-        return ProductDetailPage(product: product);
+        return BlocProvider.value(
+          value: getIt<CartBloc>(),
+          child: ProductDetailPage(product: product),
+        );
       },
     ),
   ],

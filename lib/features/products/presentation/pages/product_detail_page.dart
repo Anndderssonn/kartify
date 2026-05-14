@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kartify/features/cart/cart.dart';
 import 'package:kartify/features/products/domain/domain.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -206,7 +208,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<CartBloc>().add(
+                  CartItemAdded(product: widget.product, quantity: _quantity),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${widget.product.name} added to cart'),
+                    duration: const Duration(seconds: 1),
+                  ),
+                );
+              },
               style: FilledButton.styleFrom(
                 minimumSize: const Size(double.infinity, 48),
                 shape: RoundedRectangleBorder(
