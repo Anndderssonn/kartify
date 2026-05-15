@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartify/features/cart/domain/domain.dart';
 import 'package:kartify/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:kartify/features/shared/shared.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -178,7 +179,7 @@ class _CartItemCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            _QuantityButton(
+                            QuantityButton(
                               icon: Icons.remove,
                               onTap: () {
                                 if (item.quantity == 1) {
@@ -210,7 +211,7 @@ class _CartItemCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            _QuantityButton(
+                            QuantityButton(
                               icon: Icons.add,
                               onTap: () => context.read<CartBloc>().add(
                                 CartQuantityUpdated(
@@ -231,36 +232,6 @@ class _CartItemCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _QuantityButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-  final Color backgroundColor;
-  final Color iconColor;
-
-  const _QuantityButton({
-    required this.icon,
-    required this.onTap,
-    required this.backgroundColor,
-    required this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Icon(icon, size: 16, color: iconColor),
       ),
     );
   }

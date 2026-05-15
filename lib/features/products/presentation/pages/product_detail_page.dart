@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartify/features/cart/cart.dart';
 import 'package:kartify/features/products/domain/domain.dart';
+import 'package:kartify/features/shared/shared.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductEntity product;
@@ -163,7 +164,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                             Row(
                               children: [
-                                _QuantityButton(
+                                QuantityButton(
                                   icon: Icons.remove,
                                   onTap: _decrement,
                                   backgroundColor: colorScheme.primaryContainer,
@@ -182,7 +183,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                   ),
                                 ),
-                                _QuantityButton(
+                                QuantityButton(
                                   icon: Icons.add,
                                   onTap: _increment,
                                   backgroundColor: colorScheme.primary,
@@ -260,36 +261,6 @@ class _CircleButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Icon(icon, size: 20, color: iconColor ?? Colors.black87),
-      ),
-    );
-  }
-}
-
-class _QuantityButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-  final Color backgroundColor;
-  final Color iconColor;
-
-  const _QuantityButton({
-    required this.icon,
-    required this.onTap,
-    required this.backgroundColor,
-    required this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, size: 18, color: iconColor),
       ),
     );
   }
