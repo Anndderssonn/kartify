@@ -84,11 +84,16 @@ void _setupProducts() {
   );
 
   getIt.registerLazySingleton(
+    () => GetAllProductsUsecase(repository: getIt<ProductRepository>()),
+  );
+
+  getIt.registerLazySingleton(
     () => GetProductsByCategoryUsecase(repository: getIt<ProductRepository>()),
   );
 
   getIt.registerFactory(
     () => ProductBloc(
+      getAllProductsUsecase: getIt<GetAllProductsUsecase>(),
       getProductsByCategoryUsecase: getIt<GetProductsByCategoryUsecase>(),
     ),
   );

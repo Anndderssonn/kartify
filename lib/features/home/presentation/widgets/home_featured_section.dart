@@ -27,7 +27,7 @@ class HomeFeaturedSection extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => context.go('/categories'),
+                onTap: () => context.push('/all-products'),
                 child: Text(
                   'See all',
                   style: TextStyle(fontSize: 12, color: colorScheme.primary),
@@ -52,62 +52,68 @@ class HomeFeaturedSection extends StatelessWidget {
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    return Container(
-                      width: 130,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: colorScheme.outlineVariant),
+                    return GestureDetector(
+                      onTap: () => context.push(
+                        '/product/${product.id}',
+                        extra: product,
                       ),
-                      clipBehavior: Clip.hardEdge,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: product.imageUrl,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(
-                                color: colorScheme.primaryContainer,
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                color: colorScheme.primaryContainer,
-                                child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  color: colorScheme.primary,
+                      child: Container(
+                        width: 130,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: colorScheme.outlineVariant),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: CachedNetworkImage(
+                                imageUrl: product.imageUrl,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  color: colorScheme.primaryContainer,
                                 ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            color: colorScheme.primaryContainer,
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  product.name,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: colorScheme.onPrimaryContainer,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  '\$${product.price.toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                                errorWidget: (context, url, error) => Container(
+                                  color: colorScheme.primaryContainer,
+                                  child: Icon(
+                                    Icons.image_not_supported_outlined,
                                     color: colorScheme.primary,
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Container(
+                              width: double.infinity,
+                              color: colorScheme.primaryContainer,
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product.name,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: colorScheme.onPrimaryContainer,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '\$${product.price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

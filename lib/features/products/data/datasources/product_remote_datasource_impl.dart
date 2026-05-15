@@ -86,6 +86,12 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
   ];
 
   @override
+  Future<List<ProductModel>> getAllProducts() async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    return List.from(_mockProducts);
+  }
+
+  @override
   Future<List<ProductModel>> getProductsByCategory(String categoryId) async {
     await Future.delayed(const Duration(milliseconds: 800));
     return _mockProducts.where((p) => p.categoryId == categoryId).toList();

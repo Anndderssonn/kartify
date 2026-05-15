@@ -40,6 +40,13 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(
+      path: '/all-products',
+      builder: (context, state) => BlocProvider(
+        create: (_) => getIt<ProductBloc>()..add(AllProductsLoadRequested()),
+        child: const ProductsPage(categoryName: 'Featured'),
+      ),
+    ),
+    GoRoute(
       path: '/products/:categoryId',
       builder: (context, state) {
         final categoryId = state.pathParameters['categoryId']!;

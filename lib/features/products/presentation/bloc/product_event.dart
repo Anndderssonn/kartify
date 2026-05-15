@@ -6,3 +6,5 @@ final class ProductLoadRequested extends ProductEvent {
   final String categoryId;
   ProductLoadRequested({required this.categoryId});
 }
+
+final class AllProductsLoadRequested extends ProductEvent {}
