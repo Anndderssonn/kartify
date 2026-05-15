@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kartify/core/core.dart';
+import 'package:kartify/features/cart/cart.dart';
 import 'package:kartify/features/main_navigation/bloc/navigation_bloc.dart';
 
 class MainNavigationPage extends StatelessWidget {
@@ -21,8 +23,11 @@ class MainNavigationPage extends StatelessWidget {
     final location = GoRouterState.of(context).uri.path;
     final index = _locationToIndex(location);
 
-    return BlocProvider(
-      create: (_) => NavigationBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => NavigationBloc()),
+        BlocProvider.value(value: getIt<CartBloc>()),
+      ],
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
           context.read<NavigationBloc>().add(
@@ -47,7 +52,7 @@ class MainNavigationPage extends StatelessWidget {
                     context.go('/profile');
                 }
               },
-              destinations: const [
+              destinations: [
                 NavigationDestination(
                   icon: Icon(Icons.home_outlined),
                   selectedIcon: Icon(Icons.home),
@@ -59,8 +64,26 @@ class MainNavigationPage extends StatelessWidget {
                   label: 'Categories',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  selectedIcon: Icon(Icons.shopping_cart),
+                  icon: BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) {
+                      if (state.isEmpty) {
+                        return const Icon(Icons.shopping_cart_outlined);
+                      }
+                      return Badge(
+                        label: Text('${state.totalItems}'),
+                        child: const Icon(Icons.shopping_cart_outlined),
+                      );
+                    },
+                  ),
+                  selectedIcon: BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) {
+                      if (state.isEmpty) return const Icon(Icons.shopping_cart);
+                      return Badge(
+                        label: Text('${state.totalItems}'),
+                        child: const Icon(Icons.shopping_cart),
+                      );
+                    },
+                  ),
                   label: 'Cart',
                 ),
                 NavigationDestination(
